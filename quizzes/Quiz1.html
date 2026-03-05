@@ -1,0 +1,300 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width,initial-scale=1" />
+  <title>Quiz 1</title>
+  <link rel="stylesheet" href="../assets/app.css" />
+</head>
+<body>
+  <div class="wrap">
+
+    <div class="bar">
+      <button class="btn secondary" id="homeBtn">← Back to Home</button>
+      <div class="pill" id="progress">Question 1 of 1</div>
+    </div>
+
+    <section id="screenQuiz">
+      <div class="qbox">
+        <h2 id="quizTitle" style="color:#17320B;margin:0 0 10px">Quiz 1</h2>
+        <p class="qtitle" id="qText">Loading…</p>
+        <div id="options"></div>
+
+        <div class="bar" style="margin-top:14px">
+          <button class="btn secondary" id="prevBtn">Previous</button>
+          <div style="display:flex; gap:10px">
+            <button class="btn" id="nextBtn">Next →</button>
+            <button class="btn" id="submitBtn">Submit</button>
+          </div>
+        </div>
+
+        <p class="small" style="margin-top:10px">
+          Educational self-assessment only. Not an official exam.
+        </p>
+      </div>
+    </section>
+
+    <section id="screenResult" class="hidden">
+      <div class="qbox">
+        <div style="display:flex;justify-content:space-between;align-items:center;gap:10px">
+          <button class="btn secondary" id="homeBtn2">← Back to Home</button>
+          <button class="btn" id="retakeBtn">Retake Quiz</button>
+        </div>
+
+        <h2 style="color:#17320B;margin:14px 0 6px">Result</h2>
+        <div style="font-size:28px;font-weight:900" id="scoreLine">0 / 0 (0%)</div>
+        <div class="small" style="margin-top:6px" id="scoreMsg"></div>
+
+        <div class="review">
+          <h3 style="color:#17320B;margin:0 0 10px">Answer Review</h3>
+          <div id="review"></div>
+          <div class="small" id="disclaimer"></div>
+        </div>
+      </div>
+    </section>
+
+  </div>
+
+  <script src="../assets/engine.js"></script>
+  <script>
+    // Quiz 1 data (40 questions). We'll start with what you sent (39),
+    // and I added 1 extra question to make them 40.
+    const QUIZ = {
+      title: "Quiz 1 — Sedative–Hypnotics & Anxiolytics",
+      questions: [
+        {
+          q: "Which one of the following statements is correct regarding benzodiazepines?",
+          options: [
+            "Benzodiazepines directly open chloride channels.",
+            "Benzodiazepines show analgesic actions.",
+            "Clinical improvement of anxiety requires 2 to 4 weeks of treatment with benzodiazepines.",
+            "All benzodiazepines have some sedative effects."
+          ],
+          correctIndex: 3,
+          explanation:
+            "Benzodiazepines enhance GABA-A action by increasing the frequency of chloride channel opening (they do not open the channel directly), have no analgesic effect, and typically relieve acute anxiety quickly."
+        },
+        {
+          q: "Which one of the following is a short-acting hypnotic?",
+          options: ["Phenobarbital","Diazepam","Chlordiazepoxide","Triazolam"],
+          correctIndex: 3,
+          explanation:
+            "Triazolam is a short-acting benzodiazepine commonly used as a hypnotic for sleep-onset insomnia."
+        },
+        {
+          q: "Which statement is correct regarding anxiolytic and hypnotic agents?",
+          options: [
+            "Diazepam and phenobarbital induce the cytochrome P450 enzyme system.",
+            "Phenobarbital is useful in the treatment of acute intermittent porphyria.",
+            "Phenobarbital induces respiratory depression, which is enhanced by ethanol.",
+            "Buspirone has actions similar to those of benzodiazepines."
+          ],
+          correctIndex: 2,
+          explanation:
+            "Barbiturates can cause significant respiratory depression, and CNS depressants like ethanol add synergistic depression (dangerous)."
+        },
+        {
+          q: "A 45-year-old man has blood alcohol level 275 mg/dL and history of alcohol-related seizures. If he goes into withdrawal, what treatment should be provided?",
+          options: ["No pharmacological treatment is necessary.","Lorazepam","Phenytoin","Buspirone"],
+          correctIndex: 1,
+          explanation:
+            "Benzodiazepines (e.g., lorazepam) are first-line for acute alcohol withdrawal to prevent seizures and reduce autonomic hyperactivity."
+        },
+        {
+          q: "A 36-year-old male has difficulty falling asleep for 2 weeks and wants no daytime sedation. Best medication?",
+          options: ["Temazepam","Flurazepam","Zaleplon","Buspirone"],
+          correctIndex: 2,
+          explanation:
+            "Zaleplon is a short-acting Z-drug helpful for sleep-onset insomnia with minimal next-day sedation due to short half-life."
+        },
+        {
+          q: "A 45-year-old woman has severe daytime anxiety and needs rapid acute relief. Best agent?",
+          options: ["Buspirone","Venlafaxine","Lorazepam","Escitalopram"],
+          correctIndex: 2,
+          explanation:
+            "Lorazepam provides rapid anxiolysis. SSRIs/SNRIs and buspirone are not immediate (often need days–weeks)."
+        },
+        {
+          q: "Which sedative–hypnotic agent induces sleep by melatonin receptor agonism?",
+          options: ["Zolpidem","Eszopiclone","Estazolam","Tasimelteon"],
+          correctIndex: 3,
+          explanation:
+            "Tasimelteon is a melatonin receptor agonist (MT1/MT2) used for circadian rhythm-related sleep issues."
+        },
+        {
+          q: "A 50-year-old man with insomnia has past alcohol/opioid abuse and wants minimal dependence risk. Best choice?",
+          options: ["Zaleplon","Flurazepam","Doxepin","Zolpidem"],
+          correctIndex: 2,
+          explanation:
+            "Low-dose doxepin (H1 blockade) helps sleep maintenance with low abuse potential compared with benzos/Z-drugs."
+        },
+        {
+          q: "A 68-year-old woman wants treatment for sleep-onset insomnia but worries about memory/cognition. Best option?",
+          options: ["Diphenhydramine","Zolpidem","Alprazolam","Ramelteon"],
+          correctIndex: 3,
+          explanation:
+            "Ramelteon (melatonin agonist) has minimal cognitive impairment and low dependence risk, good for sleep-onset."
+        },
+        {
+          q: "An 18-year-old woman overdosed on alprazolam. Which treatment could reverse its effects?",
+          options: ["Diazepam","Ramelteon","Flumazenil","Naloxone"],
+          correctIndex: 2,
+          explanation:
+            "Flumazenil is a competitive antagonist at the benzodiazepine binding site on the GABA-A receptor."
+        },
+
+        // Case MCQs
+        {
+          q: "A 35-year-old man with newly diagnosed panic disorder is prescribed alprazolam short-term. The drug produces its effect primarily by:",
+          options: ["Blocking NMDA receptors","Enhancing GABA-mediated chloride influx","Inhibiting serotonin reuptake","Blocking dopamine receptors","Reducing sodium conductance"],
+          correctIndex: 1,
+          explanation:
+            "Benzodiazepines increase the frequency of GABA-A–mediated chloride channel opening → hyperpolarization → anxiolysis/sedation."
+        },
+        {
+          q: "Flumazenil works by:",
+          options: ["Acting as an inverse agonist at GABA-A receptors","Directly closing chloride channels","Competitively blocking the benzodiazepine binding site","Increasing GABA release","Blocking serotonin receptors"],
+          correctIndex: 2,
+          explanation:
+            "Flumazenil is a competitive antagonist at the benzodiazepine site; it reverses benzo effects but not barbiturates."
+        },
+        {
+          q: "A 40-year-old man with past alcohol dependence develops GAD. Which medication is safest regarding abuse potential?",
+          options: ["Diazepam","Lorazepam","Alprazolam","Buspirone","Midazolam"],
+          correctIndex: 3,
+          explanation:
+            "Buspirone is non-benzodiazepine, non-sedating, and has minimal abuse/dependence potential (but slow onset)."
+        },
+        {
+          q: "Rapid recovery after IV sedative-hypnotic despite long elimination half-life is best explained by:",
+          options: ["Renal elimination","Hepatic enzyme induction","Redistribution from brain to peripheral tissues","Active metabolite formation","Receptor desensitization"],
+          correctIndex: 2,
+          explanation:
+            "Highly lipophilic drugs (e.g., thiopental, diazepam) end quickly due to redistribution away from brain, not elimination."
+        },
+        {
+          q: "A patient with myasthenia gravis presents with anxiety. Which drug should be avoided?",
+          options: ["Buspirone","Sertraline","Diazepam","Paroxetine","Venlafaxine"],
+          correctIndex: 2,
+          explanation:
+            "Benzodiazepines can worsen muscle weakness/respiratory function and cause sedation—risky in MG."
+        },
+        {
+          q: "An elderly patient develops persistent daytime drowsiness after taking a “sleeping pill” from a friend. Most likely drug responsible is:",
+          options: ["Ramelteon","Zolpidem","Phenobarbital","Buspirone","Eszopiclone"],
+          correctIndex: 2,
+          explanation:
+            "Phenobarbital is long-acting and causes prolonged CNS depression and next-day sedation, especially in elderly."
+        },
+        {
+          q: "Zolpidem produces hypnotic effects. Which ionic change is most directly responsible?",
+          options: ["Increased calcium influx","Increased chloride conductance","Decreased sodium influx","Increased potassium efflux","NMDA receptor blockade"],
+          correctIndex: 1,
+          explanation:
+            "Z-drugs enhance GABA-A activity at BZ1 subunit → increased Cl⁻ conductance → neuronal inhibition."
+        },
+        {
+          q: "Acute alcohol withdrawal: best IV medication to prevent seizures and agitation is:",
+          options: ["Haloperidol","Lithium","Diazepam","Buspirone","Fluoxetine"],
+          correctIndex: 2,
+          explanation:
+            "Benzodiazepines are first-line for withdrawal; diazepam (or lorazepam) reduces seizures and agitation."
+        },
+        {
+          q: "After colonoscopy with benzodiazepine, patient cannot recall events. This is called:",
+          options: ["Retrograde amnesia","Delirium","Anterograde amnesia","Psychosis","Dissociation"],
+          correctIndex: 2,
+          explanation:
+            "Benzodiazepines commonly cause anterograde amnesia—impaired formation of new memories after administration."
+        },
+        {
+          q: "Phenobarbital + thiopental → apnea. Most likely explanation:",
+          options: ["Dopamine blockade","Serotonin toxicity","Additive CNS depression","Increased hepatic metabolism","Sympathetic activation"],
+          correctIndex: 2,
+          explanation:
+            "Both are CNS depressants (barbiturates) → additive/synergistic respiratory depression."
+        },
+        {
+          q: "IV lorazepam terminates seizures primarily by:",
+          options: ["Blocking voltage-gated sodium channels","Enhancing GABA-A receptor activity","Inhibiting dopamine release","Blocking NMDA receptors","Stimulating serotonin receptors"],
+          correctIndex: 1,
+          explanation:
+            "Benzodiazepines potentiate GABA-A inhibition → increased frequency of Cl⁻ channel opening → anticonvulsant effect."
+        },
+        {
+          q: "Ramelteon for sleep-onset insomnia works via:",
+          options: ["Activation of GABA-A receptors","Blockade of α1 receptors","Activation of melatonin receptors (MT1/MT2)","Inhibition of glutamate release","5-HT3 stimulation"],
+          correctIndex: 2,
+          explanation:
+            "Ramelteon is a melatonin receptor agonist that helps regulate circadian rhythm and sleep initiation."
+        },
+        {
+          q: "Elderly patient falls while taking multiple drugs including diazepam. Which most likely contributed?",
+          options: ["Atenolol","Warfarin","Diazepam","Losartan","Hydrochlorothiazide"],
+          correctIndex: 2,
+          explanation:
+            "Benzodiazepines increase fall risk (sedation, impaired coordination, cognitive slowing), especially in elderly."
+        },
+        {
+          q: "Short duration of IV diazepam before a procedure despite long half-life is due to:",
+          options: ["Renal clearance","Hepatic metabolism","Redistribution from brain to peripheral tissues","Active metabolite formation","Tolerance"],
+          correctIndex: 2,
+          explanation:
+            "Rapid redistribution ends the effect quickly; elimination/half-life explains how long the drug remains in body."
+        },
+        {
+          q: "Obstructive sleep apnea: which drug is contraindicated for insomnia?",
+          options: ["Temazepam","Acetazolamide","Protriptyline","Medroxyprogesterone","Imipramine"],
+          correctIndex: 0,
+          explanation:
+            "Benzodiazepines can worsen airway obstruction/respiratory drive during sleep → risky in OSA."
+        },
+        {
+          q: "Seizures + muscle spasticity: which drug addresses both?",
+          options: ["Buspirone","Lithium","Diazepam","Haloperidol","Donepezil"],
+          correctIndex: 2,
+          explanation:
+            "Diazepam enhances GABA-A, used as anticonvulsant and muscle relaxant (spasticity)."
+        },
+        {
+          q: "Panic disorder on sertraline still has attacks. Short-term add-on?",
+          options: ["Aripiprazole","Thiopental","Buspirone","Alprazolam","Eszopiclone"],
+          correctIndex: 3,
+          explanation:
+            "Benzodiazepines (e.g., alprazolam) can bridge until SSRI takes full effect; use short-term due to dependence risk."
+        },
+        {
+          q: "Alcoholic patient with tremors, hallucinations, agitation after stopping alcohol. Best treatment?",
+          options: ["Naltrexone","Imipramine","Haloperidol","Buspirone","Diazepam"],
+          correctIndex: 4,
+          explanation:
+            "Acute withdrawal is treated with benzodiazepines to prevent seizures/DTs and calm autonomic symptoms."
+        },
+        {
+          q: "Benzodiazepine used for procedural sedation with very short half-life is:",
+          options: ["Alprazolam","Midazolam","Lorazepam","Clonazepam","Flunitrazepam"],
+          correctIndex: 1,
+          explanation:
+            "Midazolam has rapid onset, short duration, and is commonly used for procedural sedation/anxiolysis."
+        },
+
+        // Extra question to make total 40 (added)
+        {
+          q: "Which statement best describes buspirone?",
+          options: [
+            "Provides immediate relief of acute panic within minutes.",
+            "Acts primarily as a 5-HT1A partial agonist and has minimal sedation.",
+            "Is contraindicated in patients with a history of substance use because it is highly addictive.",
+            "Causes significant respiratory depression when combined with alcohol."
+          ],
+          correctIndex: 1,
+          explanation:
+            "Buspirone is a 5-HT1A partial agonist used for GAD; it is non-sedating, low abuse potential, and has delayed onset (days–weeks)."
+        }
+      ]
+    };
+
+    QuizApp.init(QUIZ);
+  </script>
+</body>
+</html>
