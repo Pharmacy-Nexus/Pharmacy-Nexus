@@ -1,0 +1,150 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width,initial-scale=1" />
+  <title>Study Questions | Pharmacy Nexus</title>
+  <link rel="stylesheet" href="./assets/app.css" />
+  <style>
+    .feedbackBox{
+      margin-top:14px;
+      padding:14px;
+      border:1px solid #e5e7eb;
+      border-radius:12px;
+      background:#fff;
+    }
+    .correctText{
+      color:#17320B;
+      font-weight:700;
+    }
+    .wrongText{
+      color:#b91c1c;
+      font-weight:700;
+    }
+  </style>
+</head>
+<body>
+  <div class="wrap">
+    <header class="top">
+      <a id="backTopic" href="./pharmacology.html" class="cardBtn" style="text-decoration:none; display:inline-block; margin-bottom:16px;">← Back to Topic</a>
+      <h1 id="pageTitle">Study Questions</h1>
+      <p class="sub">Choose the best answer. Explanation appears immediately.</p>
+    </header>
+
+    <div class="bar">
+      <div class="pill" id="progress">Question 1 of 1</div>
+    </div>
+
+    <section class="qbox">
+      <h2 class="qtitle" id="questionText">Loading...</h2>
+      <div id="optionsBox"></div>
+
+      <div id="feedbackBox" class="feedbackBox hidden"></div>
+
+      <div style="margin-top:16px; display:flex; gap:10px; flex-wrap:wrap;">
+        <button class="btn secondary" id="prevBtn">Previous</button>
+        <button class="btn" id="nextBtn">Next</button>
+      </div>
+    </section>
+
+    <footer class="foot">
+      <small>This section is for educational self-learning only.</small>
+    </footer>
+  </div>
+
+  <script src="./pharmacology-data.js"></script>
+  <script>
+    const params = new URLSearchParams(window.location.search);
+    const topicKey = params.get("topic");
+    const topic = pharmacologyData.topics[topicKey];
+
+    const studyQuestions = topic.study;
+    let currentIndex = 0;
+    let selectedAnswers = new Array(studyQuestions.length).fill(null);
+
+    document.getElementById("pageTitle").textContent = `${topic.title} — Study Questions`;
+    document.getElementById("backTopic").href = `pharmacology-topic.html?topic=${topicKey}`;
+
+    function renderQuestion() {
+      const q = studyQuestions[currentIndex];
+
+      document.getElementById("progress").textContent =
+        `Question ${currentIndex + 1} of ${studyQuestions.length}`;
+
+      document.getElementById("questionText").textContent = q.question;
+
+      const optionsBox = document.getElementById("optionsBox");
+      optionsBox.innerHTML = "";
+
+      q.options.forEach((option, index) => {
+        const div = document.createElement("div");
+        div.className = "opt";
+        div.textContent = option;
+
+        if (selectedAnswers[currentIndex] !== null) {
+          if (index === q.answer) {
+            div.classList.add("selected");
+          }
+        }
+
+        div.onclick = () => {
+          if (selectedAnswers[currentIndex] !== null) return;
+
+          selectedAnswers[currentIndex] = index;
+          showFeedback(index);
+          renderQuestion();
+        };
+
+        optionsBox.appendChild(div);
+      });
+
+      document.getElementById("prevBtn").disabled = currentIndex === 0;
+      document.getElementById("nextBtn").disabled = currentIndex === studyQuestions.length - 1;
+
+      if (selectedAnswers[currentIndex] !== null) {
+        showFeedback(selectedAnswers[currentIndex]);
+      } else {
+        document.getElementById("feedbackBox").classList.add("hidden");
+        document.getElementById("feedbackBox").innerHTML = "";
+      }
+    }
+
+    function showFeedback(chosenIndex) {
+      const q = studyQuestions[currentIndex];
+      const feedbackBox = document.getElementById("feedbackBox");
+      const isCorrect = chosenIndex === q.answer;
+
+      feedbackBox.classList.remove("hidden");
+
+      if (isCorrect) {
+        feedbackBox.innerHTML = `
+          <div class="correctText">Correct ✅</div>
+          <div style="margin-top:8px;"><strong>Explanation:</strong> ${q.explanation}</div>
+        `;
+      } else {
+        feedbackBox.innerHTML = `
+          <div class="wrongText">Incorrect ❌</div>
+          <div style="margin-top:8px;"><strong>Correct Answer:</strong> ${q.options[q.answer]}</div>
+          <div style="margin-top:8px;"><strong>Explanation:</strong> ${q.explanation}</div>
+        `;
+      }
+    }
+
+    document.getElementById("prevBtn").onclick = () => {
+      if (currentIndex > 0) {
+        currentIndex--;
+        renderQuestion();
+      }
+    };
+
+    document.getElementById("nextBtn").onclick = () => {
+      if (currentIndex < studyQuestions.length - 1) {
+        currentIndex++;
+        renderQuestion();
+      }
+    };
+
+    renderQuestion();
+  </script>
+</body>
+</html>
