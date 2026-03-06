@@ -1,5 +1,6 @@
 const pharmacologyData = {
   topics: {
+
     hypnotics: {
       title: "Hypnotic Drugs",
 
@@ -14,17 +15,6 @@ const pharmacologyData = {
           ],
           answer: 3,
           explanation: "Triazolam is a short-acting benzodiazepine commonly used for sleep-onset insomnia."
-        },
-        {
-          question: "Which sedative–hypnotic agent induces sleep by melatonin receptor agonism?",
-          options: [
-            "Zolpidem",
-            "Eszopiclone",
-            "Estazolam",
-            "Tasimelteon"
-          ],
-          answer: 3,
-          explanation: "Tasimelteon acts as a melatonin receptor agonist and helps regulate circadian rhythm."
         }
       ],
 
@@ -33,26 +23,15 @@ const pharmacologyData = {
           title: "Quiz 1",
           questions: [
             {
-              question: "Which one of the following statements is correct regarding benzodiazepines?",
+              question: "Which statement about benzodiazepines is correct?",
               options: [
-                "Benzodiazepines directly open chloride channels.",
-                "Benzodiazepines show analgesic actions.",
-                "Clinical improvement of anxiety requires 2 to 4 weeks of treatment.",
-                "All benzodiazepines have some sedative effects."
+                "They directly open chloride channels",
+                "They have analgesic action",
+                "They require 2–4 weeks to work",
+                "All benzodiazepines have sedative effects"
               ],
               answer: 3,
-              explanation: "All benzodiazepines have sedative effects because they enhance GABA-A receptor activity."
-            },
-            {
-              question: "Which one of the following is a short-acting hypnotic?",
-              options: [
-                "Phenobarbital",
-                "Diazepam",
-                "Chlordiazepoxide",
-                "Triazolam"
-              ],
-              answer: 3,
-              explanation: "Triazolam is a short-acting benzodiazepine used mainly for sleep induction."
+              explanation: "All benzodiazepines produce sedation because they enhance GABA-A receptor activity."
             }
           ]
         }
@@ -60,7 +39,7 @@ const pharmacologyData = {
 
       cases: [
         {
-          question: "A 50-year-old man with insomnia has a past history of alcohol abuse and wants minimal dependence risk. Best choice?",
+          question: "A patient with insomnia and history of alcohol abuse needs a drug with low dependence risk. Best choice?",
           options: [
             "Zaleplon",
             "Flurazepam",
@@ -71,15 +50,14 @@ const pharmacologyData = {
           explanation: "Low-dose doxepin has minimal abuse potential and is useful for insomnia."
         }
       ]
-    }
-  }
-},
+    },
+
     antidepressants: {
       title: "Antidepressant Agents",
 
       study: [
         {
-          question: "Which of the following antidepressants is a selective serotonin reuptake inhibitor (SSRI)?",
+          question: "Which of the following antidepressants is an SSRI?",
           options: [
             "Amitriptyline",
             "Fluoxetine",
@@ -87,18 +65,7 @@ const pharmacologyData = {
             "Bupropion"
           ],
           answer: 1,
-          explanation: "Fluoxetine is an SSRI. Amitriptyline is a tricyclic antidepressant, phenelzine is an MAOI, and bupropion inhibits norepinephrine and dopamine reuptake."
-        },
-        {
-          question: "Which antidepressant is commonly associated with anticholinergic effects?",
-          options: [
-            "Sertraline",
-            "Amitriptyline",
-            "Fluoxetine",
-            "Venlafaxine"
-          ],
-          answer: 1,
-          explanation: "Amitriptyline is a tricyclic antidepressant and commonly causes anticholinergic adverse effects such as dry mouth, constipation, and urinary retention."
+          explanation: "Fluoxetine is an SSRI antidepressant."
         }
       ],
 
@@ -107,7 +74,7 @@ const pharmacologyData = {
           title: "Quiz 1",
           questions: [
             {
-              question: "Which of the following antidepressants is classified as an SSRI?",
+              question: "Which drug is classified as an SSRI?",
               options: [
                 "Imipramine",
                 "Fluoxetine",
@@ -115,18 +82,7 @@ const pharmacologyData = {
                 "Amitriptyline"
               ],
               answer: 1,
-              explanation: "Fluoxetine is an SSRI. Imipramine and amitriptyline are TCAs, while phenelzine is an MAOI."
-            },
-            {
-              question: "A patient taking a tricyclic antidepressant develops dry mouth, constipation, and blurred vision. These effects are due to:",
-              options: [
-                "Serotonin syndrome",
-                "Anticholinergic activity",
-                "Dopamine blockade",
-                "Histamine release"
-              ],
-              answer: 1,
-              explanation: "TCAs commonly cause anticholinergic side effects because they block muscarinic receptors."
+              explanation: "Fluoxetine is an SSRI antidepressant."
             }
           ]
         }
@@ -134,15 +90,18 @@ const pharmacologyData = {
 
       cases: [
         {
-          question: "A 32-year-old woman with major depressive disorder is started on fluoxetine. Which adverse effect is most likely during treatment?",
+          question: "A patient taking fluoxetine develops sexual dysfunction. This side effect is common with:",
           options: [
-            "Marked anticholinergic effects",
-            "Sexual dysfunction",
-            "Severe orthostatic hypotension",
-            "Hypertensive crisis with cheese"
+            "SSRIs",
+            "TCAs",
+            "MAOIs",
+            "Lithium"
           ],
-          answer: 1,
-          explanation: "SSRIs such as fluoxetine commonly cause sexual dysfunction. Anticholinergic effects are more typical of TCAs, and hypertensive crisis is linked to MAOIs."
+          answer: 0,
+          explanation: "Sexual dysfunction is a well-known adverse effect of SSRIs."
         }
       ]
     }
+
+  }
+};
