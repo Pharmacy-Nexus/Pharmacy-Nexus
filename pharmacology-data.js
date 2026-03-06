@@ -73,7 +73,7 @@ const pharmacologyData = {
       ]
     }
   }
-};
+},
     antidepressants: {
       title: "Antidepressant Agents",
 
