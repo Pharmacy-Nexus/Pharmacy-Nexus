@@ -1,0 +1,173 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width,initial-scale=1" />
+  <title>Quiz | Pharmacy Nexus</title>
+  <link rel="stylesheet" href="./assets/app.css" />
+</head>
+<body>
+  <div class="wrap">
+
+    <header class="top">
+      <a id="backTopic" href="./pharmacology.html" class="cardBtn" style="text-decoration:none; display:inline-block; margin-bottom:16px;">← Back to Topic</a>
+      <h1 id="pageTitle">Quiz</h1>
+      <p class="sub">Answer all questions, then submit to see your result.</p>
+    </header>
+
+    <div id="quizSection">
+      <div class="bar">
+        <div class="pill" id="progress">Question 1 of 1</div>
+      </div>
+
+      <section class="qbox">
+        <h2 class="qtitle" id="questionText">Loading...</h2>
+        <div id="optionsBox"></div>
+
+        <div style="margin-top:16px; display:flex; gap:10px; flex-wrap:wrap;">
+          <button class="btn secondary" id="prevBtn">Previous</button>
+          <button class="btn" id="nextBtn">Next</button>
+          <button class="btn" id="submitBtn">Submit</button>
+        </div>
+      </section>
+    </div>
+
+    <div id="resultSection" class="hidden">
+      <section class="qbox">
+        <h2 style="color:#17320B;">Your Result</h2>
+        <div id="scoreText" style="font-size:32px; font-weight:900; margin:12px 0;"></div>
+        <div id="scoreMessage" class="sub" style="margin-bottom:18px;"></div>
+
+        <button class="btn" id="retakeBtn">Retake Quiz</button>
+
+        <div class="review" id="reviewBox">
+          <h3 style="color:#17320B;">Answer Review</h3>
+        </div>
+
+        <div class="foot">
+          <small>This quiz is intended for educational and self-learning purposes only. Results do not represent official academic evaluation.</small>
+        </div>
+      </section>
+    </div>
+
+  </div>
+
+  <script src="./pharmacology-data.js"></script>
+  <script>
+    const params = new URLSearchParams(window.location.search);
+    const topicKey = params.get("topic");
+    const topic = pharmacologyData.topics[topicKey];
+    const quiz = topic.quizzes[0]; // حاليًا أول كويز فقط
+
+    const questions = quiz.questions;
+    let currentIndex = 0;
+    let selectedAnswers = new Array(questions.length).fill(null);
+
+    document.getElementById("pageTitle").textContent = `${topic.title} — ${quiz.title}`;
+    document.getElementById("backTopic").href = `pharmacology-topic.html?topic=${topicKey}`;
+
+    function renderQuestion() {
+      const q = questions[currentIndex];
+
+      document.getElementById("progress").textContent =
+        `Question ${currentIndex + 1} of ${questions.length}`;
+
+      document.getElementById("questionText").textContent = q.question;
+
+      const optionsBox = document.getElementById("optionsBox");
+      optionsBox.innerHTML = "";
+
+      q.options.forEach((option, index) => {
+        const div = document.createElement("div");
+        div.className = "opt";
+        div.textContent = option;
+
+        if (selectedAnswers[currentIndex] === index) {
+          div.classList.add("selected");
+        }
+
+        div.onclick = () => {
+          selectedAnswers[currentIndex] = index;
+          renderQuestion();
+        };
+
+        optionsBox.appendChild(div);
+      });
+
+      document.getElementById("prevBtn").disabled = currentIndex === 0;
+      document.getElementById("nextBtn").disabled = currentIndex === questions.length - 1;
+    }
+
+    function showResults() {
+      let score = 0;
+      const reviewBox = document.getElementById("reviewBox");
+      reviewBox.innerHTML = `<h3 style="color:#17320B;">Answer Review</h3>`;
+
+      questions.forEach((q, i) => {
+        const isCorrect = selectedAnswers[i] === q.answer;
+        if (isCorrect) score++;
+
+        const block = document.createElement("div");
+        block.style.marginBottom = "20px";
+        block.innerHTML = `
+          <p><strong>Question ${i + 1}:</strong> ${q.question}</p>
+          <p><strong>Your Answer:</strong> ${
+            selectedAnswers[i] !== null ? q.options[selectedAnswers[i]] : "Not answered"
+          }</p>
+          <p><strong>Correct Answer:</strong> ${q.options[q.answer]}</p>
+          <p class="${isCorrect ? "good" : "bad"}">
+            ${isCorrect ? "Correct ✅" : "Incorrect ❌"}
+          </p>
+          <p><strong>Explanation:</strong> ${q.explanation}</p>
+          <hr>
+        `;
+        reviewBox.appendChild(block);
+      });
+
+      const percentage = Math.round((score / questions.length) * 100);
+      document.getElementById("scoreText").textContent =
+        `${score} / ${questions.length} (${percentage}%)`;
+
+      let message = "";
+      if (percentage >= 80) {
+        message = "Strong understanding of the topic.";
+      } else if (percentage >= 50) {
+        message = "Good understanding, but needs review.";
+      } else {
+        message = "Needs more practice and revision.";
+      }
+
+      document.getElementById("scoreMessage").textContent = message;
+
+      document.getElementById("quizSection").classList.add("hidden");
+      document.getElementById("resultSection").classList.remove("hidden");
+    }
+
+    document.getElementById("prevBtn").onclick = () => {
+      if (currentIndex > 0) {
+        currentIndex--;
+        renderQuestion();
+      }
+    };
+
+    document.getElementById("nextBtn").onclick = () => {
+      if (currentIndex < questions.length - 1) {
+        currentIndex++;
+        renderQuestion();
+      }
+    };
+
+    document.getElementById("submitBtn").onclick = showResults;
+
+    document.getElementById("retakeBtn").onclick = () => {
+      currentIndex = 0;
+      selectedAnswers = new Array(questions.length).fill(null);
+      document.getElementById("quizSection").classList.remove("hidden");
+      document.getElementById("resultSection").classList.add("hidden");
+      renderQuestion();
+    };
+
+    renderQuestion();
+  </script>
+</body>
+</html>
