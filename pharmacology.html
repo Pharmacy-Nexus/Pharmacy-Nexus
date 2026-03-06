@@ -5,6 +5,29 @@
   <meta name="viewport" content="width=device-width,initial-scale=1" />
   <title>Pharmacology | Pharmacy Nexus</title>
   <link rel="stylesheet" href="./assets/app.css" />
+  <style>
+    .searchWrap{
+      margin:18px 0 24px;
+    }
+    .searchInput{
+      width:100%;
+      max-width:420px;
+      padding:12px 14px;
+      border:1px solid #d1d5db;
+      border-radius:12px;
+      font-size:16px;
+      outline:none;
+    }
+    .searchInput:focus{
+      border-color:#17320B;
+      box-shadow:0 0 0 3px rgba(23,50,11,.08);
+    }
+    .emptyMsg{
+      color:#6b7280;
+      margin-top:10px;
+      display:none;
+    }
+  </style>
 </head>
 <body>
   <div class="wrap">
@@ -12,6 +35,16 @@
       <a href="./index.html" class="cardBtn" style="text-decoration:none; display:inline-block; margin-bottom:16px;">← Back to Home</a>
       <h1>Pharmacology</h1>
       <p class="sub">Choose a topic to continue.</p>
+
+      <div class="searchWrap">
+        <input
+          type="text"
+          id="searchInput"
+          class="searchInput"
+          placeholder="Search topics..."
+        />
+        <div id="emptyMsg" class="emptyMsg">No matching topics found.</div>
+      </div>
     </header>
 
     <section class="grid" id="topicsGrid"></section>
@@ -24,24 +57,46 @@
   <script src="./pharmacology-data.js"></script>
   <script>
     const grid = document.getElementById("topicsGrid");
+    const searchInput = document.getElementById("searchInput");
+    const emptyMsg = document.getElementById("emptyMsg");
 
     const topics = pharmacologyData.topics;
 
-    for (const key in topics) {
-      const topic = topics[key];
+    function renderTopics(filterText = "") {
+      grid.innerHTML = "";
 
-      const card = document.createElement("a");
-      card.className = "card";
-      card.href = `pharmacology-topic.html?topic=${key}`;
+      const filter = filterText.trim().toLowerCase();
+      let matches = 0;
 
-      card.innerHTML = `
-        <div class="cardTitle">${topic.title}</div>
-        <div class="cardMeta">Study Questions, Quizzes, and Clinical Cases</div>
-        <div class="cardBtn">Open</div>
-      `;
+      for (const key in topics) {
+        const topic = topics[key];
+        const title = topic.title.toLowerCase();
 
-      grid.appendChild(card);
+        if (title.includes(filter)) {
+          matches++;
+
+          const card = document.createElement("a");
+          card.className = "card";
+          card.href = `pharmacology-topic.html?topic=${key}`;
+
+          card.innerHTML = `
+            <div class="cardTitle">${topic.title}</div>
+            <div class="cardMeta">Study Questions, Quizzes, and Clinical Cases</div>
+            <div class="cardBtn">Open</div>
+          `;
+
+          grid.appendChild(card);
+        }
+      }
+
+      emptyMsg.style.display = matches === 0 ? "block" : "none";
     }
+
+    searchInput.addEventListener("input", function () {
+      renderTopics(this.value);
+    });
+
+    renderTopics();
   </script>
 </body>
 </html>
