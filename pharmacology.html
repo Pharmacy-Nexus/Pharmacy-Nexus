@@ -1,0 +1,47 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width,initial-scale=1" />
+  <title>Pharmacology | Pharmacy Nexus</title>
+  <link rel="stylesheet" href="./assets/app.css" />
+</head>
+<body>
+  <div class="wrap">
+    <header class="top">
+      <a href="./index.html" class="cardBtn" style="text-decoration:none; display:inline-block; margin-bottom:16px;">← Back to Home</a>
+      <h1>Pharmacology</h1>
+      <p class="sub">Choose a topic to continue.</p>
+    </header>
+
+    <section class="grid" id="topicsGrid"></section>
+
+    <footer class="foot">
+      <small>This section is for educational self-learning only.</small>
+    </footer>
+  </div>
+
+  <script src="./pharmacology-data.js"></script>
+  <script>
+    const grid = document.getElementById("topicsGrid");
+
+    const topics = pharmacologyData.topics;
+
+    for (const key in topics) {
+      const topic = topics[key];
+
+      const card = document.createElement("a");
+      card.className = "card";
+      card.href = `pharmacology-topic.html?topic=${key}`;
+
+      card.innerHTML = `
+        <div class="cardTitle">${topic.title}</div>
+        <div class="cardMeta">Study Questions, Quizzes, and Clinical Cases</div>
+        <div class="cardBtn">Open</div>
+      `;
+
+      grid.appendChild(card);
+    }
+  </script>
+</body>
+</html>
