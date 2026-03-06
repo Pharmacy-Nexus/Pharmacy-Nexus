@@ -1,0 +1,72 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8" />
+<meta name="viewport" content="width=device-width,initial-scale=1" />
+<title>Topic | Pharmacy Nexus</title>
+<link rel="stylesheet" href="./assets/app.css" />
+</head>
+
+<body>
+
+<div class="wrap">
+
+<header class="top">
+<a href="./pharmacology.html" class="cardBtn" style="text-decoration:none; display:inline-block; margin-bottom:16px;">← Back to Pharmacology</a>
+
+<h1 id="topicTitle">Topic</h1>
+<p class="sub">Choose how you want to study.</p>
+</header>
+
+<section class="grid">
+
+<a class="card" id="studyLink">
+<div class="cardTitle">Study Questions</div>
+<div class="cardMeta">Concept-based MCQs with explanations</div>
+<div class="cardBtn">Open</div>
+</a>
+
+<a class="card" id="quizLink">
+<div class="cardTitle">Quiz</div>
+<div class="cardMeta">Exam style questions with score</div>
+<div class="cardBtn">Start Quiz</div>
+</a>
+
+<a class="card" id="casesLink">
+<div class="cardTitle">Clinical Cases</div>
+<div class="cardMeta">Case-based pharmacology practice</div>
+<div class="cardBtn">Open</div>
+</a>
+
+</section>
+
+<footer class="foot">
+<small>This site is for educational self-learning only.</small>
+</footer>
+
+</div>
+
+<script src="./pharmacology-data.js"></script>
+
+<script>
+
+const params = new URLSearchParams(window.location.search)
+const topicKey = params.get("topic")
+
+const topic = pharmacologyData.topics[topicKey]
+
+document.getElementById("topicTitle").textContent = topic.title
+
+document.getElementById("studyLink").href =
+`pharmacology-study.html?topic=${topicKey}`
+
+document.getElementById("quizLink").href =
+`pharmacology-quiz.html?topic=${topicKey}`
+
+document.getElementById("casesLink").href =
+`pharmacology-cases.html?topic=${topicKey}`
+
+</script>
+
+</body>
+</html>
