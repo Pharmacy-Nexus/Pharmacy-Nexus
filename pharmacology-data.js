@@ -3,19 +3,7 @@ const pharmacologyData = {
 
     hypnotics: {
       title: "Hypnotic Drugs",
-
-      study: [
-        {
-          question: "Which one of the following is a short-acting hypnotic?",
-          options: [
-            "Phenobarbital",
-            "Diazepam",
-            "Chlordiazepoxide",
-            "Triazolam"
-          ],
-          answer: 3,
-          explanation: "Triazolam is a short-acting benzodiazepine commonly used for sleep-onset insomnia."
-        }
+      
         study: [
   {
     question: "Which state is characterized by decreased anxiety, motor activity, and cognitive acuity?",
@@ -497,7 +485,7 @@ const pharmacologyData = {
     answer: 1,
     explanation: "Melatonin mainly acts via circadian rhythm pathways."
   }
-  ]     
+   ]     
       ],
 
       quizzes: [
