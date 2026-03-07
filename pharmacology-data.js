@@ -497,6 +497,7 @@ const pharmacologyData = {
     answer: 1,
     explanation: "Melatonin mainly acts via circadian rhythm pathways."
   }
+  ]     
       ],
 
       quizzes: [
